@@ -139,21 +139,20 @@ for x= 1:round(pole_cap_dist*subdiv+1)
         center_flux_arr(y,x)=hypot(tempval(1),tempval(2));
     end
 end
+toc
+%%
 center_homogeneity_arr = zeros(size(center_flux_arr));
 for i = 1:numel(center_flux_arr)
   center_homogeneity_arr(i) = log10(abs(centerflux-center_flux_arr(i)));
 end
 %closefemm
-toc
-%%
 x = -pole_cap_dist*5:10/subdiv:pole_cap_dist*5;
 y = -pole_cap_height*5:10/subdiv:pole_cap_height*5;
 [X,Y] = meshgrid(x,y);
 contourf(X,Y,center_homogeneity_arr,'ShowText','off');
-colorbar;
 daspect([1 1 1])
-xlabel('pole cap distance (mm)')
-ylabel('pole cap height (mm)')
+xlabel('pole cap distance [mm]')
+ylabel('pole cap height [mm]')
 xticks(linspace(-pole_cap_dist*10/2,pole_cap_dist*10/2,pole_cap_dist*10+1))
 yticks(linspace(-pole_cap_height*10/2,pole_cap_height*10/2,pole_cap_height*10+1))
 axis([-pole_cap_dist*10/2,pole_cap_dist*10/2,-pole_cap_height*10/2,pole_cap_height*10/2]);
@@ -161,3 +160,5 @@ ax = gca; % current axes
 ax.FontSize = 12;
 ax.TickDir = 'out';
 ax.TickLength = [0.02 0.02];
+c = colorbar;
+c.Label.String = 'log10(Δ center flux density) [T]';
